@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "crescent",
+  "version": "${version}",
+  "name": "Crescent",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/crescent/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.itsyunaya.crescent.client.CrescentClient"
+    ],
+    "main": [
+      "com.itsyunaya.crescent.Crescent"
+    ],
+    "modmenu": [
+      "com.itsyunaya.crescent.config.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "crescent.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
