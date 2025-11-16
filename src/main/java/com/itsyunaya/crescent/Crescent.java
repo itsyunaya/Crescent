@@ -11,7 +11,7 @@ public class Crescent implements ModInitializer {
     public static final String MOD_ID = "crescent";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static final CrescentConfigWrap CONFIG =CrescentConfigWrap.createAndLoad();
+    public static final CrescentConfigWrap CONFIG = CrescentConfigWrap.createAndLoad();
 
     @Override
     public void onInitialize() {

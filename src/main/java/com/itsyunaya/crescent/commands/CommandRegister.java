@@ -16,9 +16,9 @@ public class CommandRegister {
                         });
                         return 1;
                     })
-                    .then(ClientCommandManager.literal("explode")
+                    .then(ClientCommandManager.literal("test")
                             .executes(context -> {
-                                MinecraftClient.getInstance().stop();
+
                                 return 1;
                             })
                     )
