@@ -1,41 +1,67 @@
 package com.itsyunaya.crescent.features.meowing;
 
-import com.itsyunaya.crescent.Crescent;
 import com.itsyunaya.crescent.config.CrescentConfig;
-import com.itsyunaya.crescent.util.MeowGenerator;
+import com.itsyunaya.crescent.util.MeowUtils;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableTextContent;
+
+import java.time.Instant;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class AutoMeow {
 
-    private static boolean enabled = CrescentConfig.AutoMeow;
+    private static boolean autoMeowEnabled = CrescentConfig.autoMeow;
+    private static boolean autoMeowBackEnabled = CrescentConfig.autoMeowBack;
+    private static int autoMeowBackCooldown = CrescentConfig.autoMeowBackCooldown;
 
     public static void register() {
-        if (!enabled) {
+        if (!autoMeowEnabled) {
             return;
         }
 
-        // I can for the life of me not figure out what the boolean here is doing ;w;
-        ClientReceiveMessageEvents.GAME.register(((message, mysteryBoolean) -> {
-            // debug
-            Crescent.LOGGER.info(message.getString());
+        AtomicLong lastMeow = new AtomicLong();
+        long now = Instant.now().getEpochSecond();
 
-            String msg = message.getString();
+        // for system messages, does not include player sent stuff
+        ClientReceiveMessageEvents.GAME.register(((message, overlay) -> {
+            // for some reason the code shits itself when nh is not inside this function, im too stupid to figure out why
             ClientPlayNetworkHandler nh = MinecraftClient.getInstance().getNetworkHandler();
 
-            // person join
-//            if (message instanceof TranslatableTextContent translatable) {
-//                if (translatable.getKey().equals("multiplayer.player.joined") || translatable.getKey().equals("multiplayer.player.joined.renamed")) {
-//                    // intellij please im begging player cant be null if you're logged into the fucking game and listening for chat messages, im genuinely going to kill someone
-//                    assert MinecraftClient.getInstance().player != null;
-//                    MinecraftClient.getInstance().player.networkHandler.sendChatMessage("meow");
-//                }
-//            }
-
-            if (msg.contains(" joined the game")) {
-                nh.sendChatMessage(MeowGenerator.rollMeow());
+            // player join
+            if (hasTranslationKey(message, "multiplayer.player.joined") || hasTranslationKey(message, "multiplayer.player.joined.renamed")) {
+                nh.sendChatMessage(MeowUtils.rollMeow());
             }
         }));
+
+        // for player-sent messages
+        ClientReceiveMessageEvents.CHAT.register(((message, signedMessage, sender, params, receptionTimestamp) -> {
+            ClientPlayNetworkHandler nh = MinecraftClient.getInstance().getNetworkHandler();
+
+            // automatic meow back
+            // TODO: actually test this
+            if (!autoMeowBackEnabled) {
+                return;
+            }
+
+            if (now - lastMeow.get() < autoMeowBackCooldown) {
+                MinecraftClient.getInstance().player.sendMessage(Text.literal("AutoMeow is on cooldown, you meowed too hard..."), false);
+            } else if (MeowUtils.hasMeow(message.getString())) {
+                nh.sendChatMessage(MeowUtils.rollMeow());
+                lastMeow.set(now);
+            }
+        }));
+    }
+
+    public static boolean hasTranslationKey(Text text, String key) {
+        if (text.getContent() instanceof TranslatableTextContent translatable) {
+            if (translatable.getKey().equals(key)) return true;
+        }
+        for (Text sibling : text.getSiblings()) {
+            if (hasTranslationKey(sibling, key)) return true;
+        }
+        return false;
     }
 }

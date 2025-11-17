@@ -1,8 +1,13 @@
 package com.itsyunaya.crescent.util;
 
+import java.util.regex.Pattern;
+
 public final class Constants {
 
-    public static String[] meows = {
+    public static final Pattern MEOW_REGEX = Pattern.compile("/\\b(m[e,o,a,r,u]{1,6}(w+r*)*(o|p|r)*|n+y+a+|p+u+r{2,})[~!?.]*\\b/i");
+    public static final String[] REGEX_BLACKLIST = {"more", "mer", "mur", "me", "ma", "mop", "map", "more."};
+
+    public static final String[] MEOWS = {
             "meow",
             "mraow",
             "mreow",
@@ -16,7 +21,7 @@ public final class Constants {
             "mraowr"
     };
 
-    public static String[] meowAddons = {
+    public static final String[] MEOW_ADDONS = {
             "",
             "~",
             "~~",

@@ -6,5 +6,11 @@ import io.wispforest.owo.config.annotation.Config;
 public class CrescentConfig {
     public int mrrraow = 10;
 
-    public static boolean AutoMeow = true;
+    public static boolean autoMeow = true;
+    public static boolean autoMeowBack = true;
+    public static int autoMeowBackCooldown = 100;
+
+    public static boolean randomMeowsEnabled = true;
+    public static int randomMeowsTime = 60;
+    public static int randomMeowsChance = 60;
 }
