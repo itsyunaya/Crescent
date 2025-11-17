@@ -1,6 +1,5 @@
 package com.itsyunaya.crescent.features.meowing;
 
-import com.itsyunaya.crescent.Crescent;
 import com.itsyunaya.crescent.config.CrescentConfig;
 import com.itsyunaya.crescent.util.MeowUtils;
 import com.itsyunaya.crescent.util.Utils;
@@ -25,7 +24,7 @@ public class RandomMeows {
             counter = 0;
 
             if (Math.random() < (double) randomMeowsChance / 100) {
-                MinecraftClient.getInstance().player.networkHandler.sendChatMessage(MeowUtils.rollMeow());
+                MinecraftClient.getInstance().player.networkHandler.sendChatMessage(MeowUtils.rollMeow(true));
             }
         }
     }

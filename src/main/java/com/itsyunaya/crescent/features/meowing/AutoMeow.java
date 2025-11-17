@@ -8,22 +8,21 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableTextContent;
 
-import java.time.Instant;
-import java.util.concurrent.atomic.AtomicLong;
-
 public class AutoMeow {
 
     private static boolean autoMeowEnabled = CrescentConfig.autoMeow;
     private static boolean autoMeowBackEnabled = CrescentConfig.autoMeowBack;
     private static int autoMeowBackCooldown = CrescentConfig.autoMeowBackCooldown;
 
+    private static long lastMeow = 0;
+
     public static void register() {
         if (!autoMeowEnabled) {
             return;
         }
 
-        AtomicLong lastMeow = new AtomicLong();
-        long now = Instant.now().getEpochSecond();
+        long now = System.nanoTime();
+        long elapsedMs = (now - lastMeow) / 1_000_000;
 
         // for system messages, does not include player sent stuff
         ClientReceiveMessageEvents.GAME.register(((message, overlay) -> {
@@ -32,7 +31,7 @@ public class AutoMeow {
 
             // player join
             if (hasTranslationKey(message, "multiplayer.player.joined") || hasTranslationKey(message, "multiplayer.player.joined.renamed")) {
-                nh.sendChatMessage(MeowUtils.rollMeow());
+                nh.sendChatMessage(MeowUtils.rollMeow(true));
             }
         }));
 
@@ -41,16 +40,16 @@ public class AutoMeow {
             ClientPlayNetworkHandler nh = MinecraftClient.getInstance().getNetworkHandler();
 
             // automatic meow back
-            // TODO: actually test this
+            // TODO: test this (it might work)
             if (!autoMeowBackEnabled) {
                 return;
             }
 
-            if (now - lastMeow.get() < autoMeowBackCooldown) {
+            if (elapsedMs < autoMeowBackCooldown) {
                 MinecraftClient.getInstance().player.sendMessage(Text.literal("AutoMeow is on cooldown, you meowed too hard..."), false);
             } else if (MeowUtils.hasMeow(message.getString())) {
-                nh.sendChatMessage(MeowUtils.rollMeow());
-                lastMeow.set(now);
+                nh.sendChatMessage(MeowUtils.rollMeow(true));
+                lastMeow = now;
             }
         }));
     }

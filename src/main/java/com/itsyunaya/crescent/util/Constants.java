@@ -4,7 +4,17 @@ import java.util.regex.Pattern;
 
 public final class Constants {
 
-    public static final Pattern MEOW_REGEX = Pattern.compile("/\\b(m[e,o,a,r,u]{1,6}(w+r*)*(o|p|r)*|n+y+a+|p+u+r{2,})[~!?.]*\\b/i");
+    // oh great heavens
+    public static final Pattern MEOW_REGEX = Pattern.compile(
+            "\\b(" +
+                    "m[eoaru]{1,6}(w+r*)*[opr]?" +
+                    "|" +
+                    "n+y+a+" +
+                    "|" +
+                    "p+u+r{2,}" +
+                    ")[~!?.]*\\b",
+            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
     public static final String[] REGEX_BLACKLIST = {"more", "mer", "mur", "me", "ma", "mop", "map", "more."};
 
     public static final String[] MEOWS = {

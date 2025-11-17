@@ -1,7 +1,6 @@
 package com.itsyunaya.crescent.client;
 
-import com.itsyunaya.crescent.features.meowing.AutoMeow;
-import com.itsyunaya.crescent.features.meowing.RandomMeows;
+import com.itsyunaya.crescent.features.meowing.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
@@ -10,6 +9,9 @@ public class CrescentClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         AutoMeow.register();
+        MeowSounds.register();
+        MeowSpeak.register();
+        MeowFilter.register();
 
         // this is an AWFUL way to do this and i NEED to rewrite it
         // TODO: make less evil

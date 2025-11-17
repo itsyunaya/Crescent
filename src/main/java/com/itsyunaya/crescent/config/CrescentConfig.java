@@ -1,16 +1,26 @@
 package com.itsyunaya.crescent.config;
 
 import io.wispforest.owo.config.annotation.Config;
+import io.wispforest.owo.config.annotation.RegexConstraint;
 
 @Config(name = "crescent-config", wrapperName = "CrescentConfigWrap")
 public class CrescentConfig {
     public int mrrraow = 10;
 
     public static boolean autoMeow = true;
-    public static boolean autoMeowBack = true;
-    public static int autoMeowBackCooldown = 100;
+    public static boolean autoMeowBack = false;
+    // in milliseconds
+    public static int autoMeowBackCooldown = 500;
 
-    public static boolean randomMeowsEnabled = true;
+    public static boolean randomMeowsEnabled = false;
     public static int randomMeowsTime = 1;
     public static int randomMeowsChance = 95;
+
+    public static boolean meowSoundsEnabled = true;
+
+    public static boolean meowSpeakEnabled = true;
+
+    public static boolean meowFilterEnabled = true;
+    @RegexConstraint("[a-z]{1,10}")
+    public static String[] meowFilterWords = {"bark", "test"};
 }
