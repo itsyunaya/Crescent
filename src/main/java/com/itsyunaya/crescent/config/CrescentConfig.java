@@ -11,6 +11,6 @@ public class CrescentConfig {
     public static int autoMeowBackCooldown = 100;
 
     public static boolean randomMeowsEnabled = true;
-    public static int randomMeowsTime = 60;
-    public static int randomMeowsChance = 60;
+    public static int randomMeowsTime = 1;
+    public static int randomMeowsChance = 95;
 }
