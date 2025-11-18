@@ -1,6 +1,7 @@
 package com.itsyunaya.crescent.features.inventory;
 
 import com.itsyunaya.crescent.mixin.HandledScreenAccessor;
+import com.itsyunaya.crescent.util.DataBuilder;
 import com.itsyunaya.crescent.util.Utils;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.screen.slot.Slot;
@@ -42,7 +43,7 @@ public class SlotBinding {
             System.out.println("Released slot: " + releaseSlot);
 
             if (lastSlot != -1) {
-                onPairCaptured(lastSlot, releaseSlot);
+                registerBind(lastSlot, releaseSlot);
             }
             lastSlot = -1;
         }
@@ -50,7 +51,7 @@ public class SlotBinding {
         wasDown = down;
     }
 
-    private static void onPairCaptured(int press, int release) {
+    private static void registerBind(int press, int release) {
         if (press == release) {
             System.out.println("Same slot pressed and released: " + press);
             Utils.playErrorSound();
@@ -58,12 +59,12 @@ public class SlotBinding {
         } else {
             System.out.println("Pair captured: " + press + " -> " + release);
 
-            if (!doesBindExist(press, release)) {
+            if (!DataBuilder.pairExists(press, release)) {
                 if (!ILLEGAL_SLOTS.contains(press) && !ILLEGAL_SLOTS.contains(release)) {
                     // did you know that java has an XOR operator? me neither :3c
                     if (ARMOUR_SLOTS.contains(press) ^ ARMOUR_SLOTS.contains(release)) {
                         // register bind
-                        registerBind(press, release);
+                        DataBuilder.addPair(press, release);
                         Utils.playConfirmSound();
 
                     } else if (ARMOUR_SLOTS.contains(press) && ARMOUR_SLOTS.contains(release)) {
@@ -73,7 +74,7 @@ public class SlotBinding {
 
                     } else {
                         // register bind
-                        registerBind(press, release);
+                        DataBuilder.addPair(press, release);
                         Utils.playConfirmSound();
                     }
                 } else {
@@ -82,19 +83,10 @@ public class SlotBinding {
                     Utils.playErrorSound();
                 }
             } else {
-                // error
-
-                Utils.playErrorSound();
+                // if bind already exists, delete it again
+                DataBuilder.removePair(press, release);
+                Utils.playConfirmSound();
             }
         }
-    }
-
-    private static boolean doesBindExist(int press, int release) {
-        // add logic once i have data set up
-        return false;
-    }
-
-    private static void registerBind(int press, int release) {
-
     }
 }
