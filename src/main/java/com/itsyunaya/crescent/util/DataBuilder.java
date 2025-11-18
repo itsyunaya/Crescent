@@ -16,13 +16,11 @@ public class DataBuilder {
 
     public static void init() {
         try {
-            // Ensure config directory exists
             Files.createDirectories(CONFIG_PATH.getParent());
 
-            // If file doesn't exist, create it with an empty structure
             if (Files.notExists(CONFIG_PATH)) {
                 JsonObject root = new JsonObject();
-                root.add("pairs", new JsonArray()); // default empty array
+                root.add("pairs", new JsonArray());
                 save(root);
                 Crescent.LOGGER.info("Initialized crescent-data.json");
             }
@@ -51,7 +49,6 @@ public class DataBuilder {
         }
     }
 
-    // Add a new press/release pair
     public static void addPair(int press, int release) {
         JsonObject root = load();
 
@@ -71,7 +68,7 @@ public class DataBuilder {
         JsonObject root = load();
 
         if (!root.has("pairs")) {
-            return; // nothing to remove
+            return;
         }
 
         JsonArray pairs = root.getAsJsonArray("pairs");
@@ -105,7 +102,6 @@ public class DataBuilder {
             int press = pair.get("press").getAsInt();
             int release = pair.get("release").getAsInt();
 
-            // Check both orders
             if ((press == a && release == b) || (press == b && release == a)) {
                 return true;
             }
