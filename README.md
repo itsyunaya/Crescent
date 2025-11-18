@@ -1,5 +1,5 @@
 # Crescent
-Crescent is a Fabric utility mod (and in a way a successor to [CatboyAddons](https://github.com/catboylei/CatboyAddons)) meant to unify lots of different features I personally use
+Crescent is a Fabric utility mod (and in a way a sister mod to [CatboyAddons](https://github.com/catboylei/CatboyAddons)) meant to unify lots of different features I personally use
 
 It's currently in a pre-alpha state and missing most of the intended functionality
 
