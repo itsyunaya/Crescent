@@ -1,6 +1,8 @@
 package com.itsyunaya.crescent.client;
 
+import com.itsyunaya.crescent.features.inventory.SlotBinding;
 import com.itsyunaya.crescent.features.meowing.*;
+import com.itsyunaya.crescent.util.Utils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
@@ -17,6 +19,10 @@ public class CrescentClient implements ClientModInitializer {
         // TODO: make less evil
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             RandomMeows.register();
+            SlotBinding meow = new SlotBinding();
+            if (Utils.keyPressed) {
+                meow.piss();
+            }
         });
     }
 }

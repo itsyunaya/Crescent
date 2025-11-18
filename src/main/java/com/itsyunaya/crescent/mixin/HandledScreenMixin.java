@@ -1,7 +1,5 @@
 package com.itsyunaya.crescent.mixin;
 
-import com.itsyunaya.crescent.Crescent;
-import com.itsyunaya.crescent.util.Utils;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.ScreenHandler;
@@ -24,10 +22,6 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
     @Shadow
     @Final
     protected T handler;
-    @Shadow
-    protected int y;
-    @Shadow
-    protected int x;
 
     protected HandledScreenMixin(Text title) {
         super(title);
@@ -35,8 +29,9 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
 
     @Inject(method = "mouseClicked", at = @At("HEAD"))
     private void onMouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-        if (focusedSlot != null && !focusedSlot.hasStack() && this.handler.getCursorStack().isEmpty() && Utils.keyPressed) {
+        // debug
+        /*if (focusedSlot != null && !focusedSlot.hasStack() && this.handler.getCursorStack().isEmpty() && Utils.keyPressed) {
             Crescent.LOGGER.info(String.valueOf(focusedSlot.id));
-        }
+        }*/
     }
 }

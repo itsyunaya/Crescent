@@ -1,6 +1,7 @@
 package com.itsyunaya.crescent.commands;
 
 import com.itsyunaya.crescent.config.ConfigScreen;
+import com.itsyunaya.crescent.util.Utils;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
@@ -18,7 +19,7 @@ public class CommandRegister {
                     })
                     .then(ClientCommandManager.literal("test")
                             .executes(context -> {
-
+                                Utils.playErrorSound();
                                 return 1;
                             })
                     )

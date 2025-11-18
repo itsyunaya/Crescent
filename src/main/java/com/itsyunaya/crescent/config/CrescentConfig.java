@@ -5,6 +5,7 @@ import io.wispforest.owo.config.annotation.RegexConstraint;
 
 @Config(name = "crescent-config", wrapperName = "CrescentConfigWrap")
 public class CrescentConfig {
+
     public static boolean autoMeow = true;
     public static boolean autoMeowBack = false;
     // in milliseconds

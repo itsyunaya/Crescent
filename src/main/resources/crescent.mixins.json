@@ -6,8 +6,10 @@
   "mixins": [
   ],
   "client": [
+    "HandledScreenAccessor",
     "HandledScreenMixin",
     "KeyboardMixin",
+    "MouseMixin",
     "TitleScreenMixin"
   ],
   "injectors": {
