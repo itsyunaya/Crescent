@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.function.Function;
 
-public class CustomToast implements Toast {
+public class CrescentToast implements Toast {
     private final Text title;
     private final Text description;
 
@@ -21,7 +21,7 @@ public class CustomToast implements Toast {
     //TODO: make toast visibility length configurable
     private static final long DURATION = 5000L;
 
-    public CustomToast(Text title, Text description) {
+    public CrescentToast(Text title, Text description) {
         this.title = title;
         this.description = description;
     }
@@ -39,24 +39,24 @@ public class CustomToast implements Toast {
     //TODO: finish custom toast
     @Override
     public void draw(DrawContext context, TextRenderer textRenderer, long startTime) {
-        context.drawTextWithBackground(textRenderer, title, 18, 5, 300, 15);
-        context.drawText(textRenderer, description, 18, 18, 1, true);
-        Identifier sprite = Identifier.of("minecraft", "textures/gui/icons.png");
+        context.drawTextWithBackground(textRenderer, title, 18, 6, 300, 1310719);
+        context.drawText(textRenderer, description, 18, 16, 1, true);
+        Identifier sprite = Identifier.of("minecraft", "textures/gui/sprites/toast.png");
 
         Function<Identifier, RenderLayer> renderLayers = RenderLayer::getGuiTextured;
 
         float u = 0f;
         float v = 0f;
-        int width = 16;
-        int height = 16;
-        int textureWidth = 256;
-        int textureHeight = 256;
+        int width = 160;
+        int height = 32;
+        int textureWidth = 160;
+        int textureHeight = 32;
         int color = 1374928456;
 
         context.drawTexture(
                 renderLayers,
                 sprite,
-                20, 20,
+                0, 0,
                 u, v,
                 width, height,
                 textureWidth, textureHeight,

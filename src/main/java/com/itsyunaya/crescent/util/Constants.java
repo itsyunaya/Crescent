@@ -1,5 +1,8 @@
 package com.itsyunaya.crescent.util;
 
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+
 import java.util.regex.Pattern;
 
 public final class Constants {
@@ -41,5 +44,17 @@ public final class Constants {
             "~!",
     };
 
+    public static final Text CRESCENT_ERROR = Text.literal("[").setStyle(Style.EMPTY.withColor(16748451))
+            .append(Text.literal("!").setStyle(Style.EMPTY.withBold(true).withColor(13178954)))
+            .append("] ").setStyle(Style.EMPTY.withBold(false).withColor(16748451));
 
+    // TODO: find better unicode for this
+    public static final Text CRESCENT_SUCCESS = Text.literal("[").setStyle(Style.EMPTY.withBold(false).withColor(11558908))
+            .append("✔").setStyle(Style.EMPTY.withBold(true).withColor(7565820))
+            .append("] ").setStyle(Style.EMPTY.withBold(false).withColor(11558908));
+
+    public static final Text CRESCENT_MARK = Text.literal("[").setStyle(Style.EMPTY.withBold(false).withColor(11558908))
+            .append(Text.literal("Crescent").setStyle(Style.EMPTY.withBold(true).withColor(7565820)))
+            .append(Text.literal("]").setStyle(Style.EMPTY.withBold(false)).setStyle(Style.EMPTY.withColor(11558908)))
+            .append(Text.literal(": "));
 }

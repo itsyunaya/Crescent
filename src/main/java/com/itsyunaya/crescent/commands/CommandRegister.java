@@ -1,7 +1,7 @@
 package com.itsyunaya.crescent.commands;
 
 import com.itsyunaya.crescent.config.ConfigScreen;
-import com.itsyunaya.crescent.features.notifiers.toasts.CustomToast;
+import com.itsyunaya.crescent.features.notifiers.toasts.CrescentToast;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
@@ -20,12 +20,13 @@ public class CommandRegister {
                     })
                     .then(ClientCommandManager.literal("test")
                             .executes(context -> {
-                                MinecraftClient.getInstance().getToastManager().add(new CustomToast(Text.literal("maowww"), Text.literal("mrrp")));
+                                MinecraftClient.getInstance().getToastManager().add(new CrescentToast(Text.literal("maowww"), Text.literal("mrrp")));
                                 return 1;
                             })
                     )
                     //debug
-                    .then(ClientCommandManager.literal("test2").executes(context -> {CustomToast.showDefaultToast(); return 1;}))
+                    .then(ClientCommandManager.literal("test2").executes(context -> {
+                        CrescentToast.showDefaultToast(); return 1;}))
             );
         });
     }

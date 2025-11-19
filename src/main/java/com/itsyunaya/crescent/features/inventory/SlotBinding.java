@@ -5,6 +5,7 @@ import com.itsyunaya.crescent.util.DataBuilder;
 import com.itsyunaya.crescent.util.Utils;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Set;
@@ -53,7 +54,7 @@ public class SlotBinding {
 
     private static void registerBind(int press, int release) {
         if (press == release) {
-            System.out.println("Same slot pressed and released: " + press);
+            Utils.sendChatNotif(Text.literal("Cannot bind slot to itself."), 2);
             Utils.playErrorSound();
 
         } else {
