@@ -1,6 +1,7 @@
 package com.itsyunaya.crescent.commands;
 
 import com.itsyunaya.crescent.config.ConfigScreen;
+import com.itsyunaya.crescent.features.inventory.SlotBinding;
 import com.itsyunaya.crescent.features.notifiers.toasts.CrescentToast;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -26,7 +27,9 @@ public class CommandRegister {
                     )
                     //debug
                     .then(ClientCommandManager.literal("test2").executes(context -> {
-                        CrescentToast.showDefaultToast(); return 1;}))
+                        SlotBinding.moveItemBetweenSlots(20, 25);
+                        return 1;
+                    }))
             );
         });
     }

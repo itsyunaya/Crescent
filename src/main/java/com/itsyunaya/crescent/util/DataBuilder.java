@@ -109,4 +109,52 @@ public class DataBuilder {
 
         return false;
     }
+
+    public static java.util.List<Integer> getOtherPairValues(int value) {
+        JsonObject root = load();
+
+        java.util.List<Integer> results = new java.util.ArrayList<>();
+
+        if (!root.has("pairs")) {
+            return results;
+        }
+
+        JsonArray pairs = root.getAsJsonArray("pairs");
+
+        for (JsonElement elem : pairs) {
+            JsonObject pair = elem.getAsJsonObject();
+            int press = pair.get("press").getAsInt();
+            int release = pair.get("release").getAsInt();
+
+            if (press == value) {
+                results.add(release);
+            } else if (release == value) {
+                results.add(press);
+            }
+        }
+
+        return results;
+    }
+
+    public static boolean hasPairs(int value) {
+        JsonObject root = load();
+
+        if (!root.has("pairs")) {
+            return false;
+        }
+
+        JsonArray pairs = root.getAsJsonArray("pairs");
+
+        for (JsonElement elem : pairs) {
+            JsonObject pair = elem.getAsJsonObject();
+            int press = pair.get("press").getAsInt();
+            int release = pair.get("release").getAsInt();
+
+            if (press == value || release == value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

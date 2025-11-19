@@ -48,7 +48,7 @@ public final class Constants {
             .append(Text.literal("!").setStyle(Style.EMPTY.withBold(true).withColor(13178954)))
             .append("] ").setStyle(Style.EMPTY.withBold(false).withColor(16748451));
 
-    // TODO: find better unicode for this
+    // TODO: fix colouring
     public static final Text CRESCENT_SUCCESS = Text.literal("[").setStyle(Style.EMPTY.withBold(false).withColor(11558908))
             .append("✔").setStyle(Style.EMPTY.withBold(true).withColor(7565820))
             .append("] ").setStyle(Style.EMPTY.withBold(false).withColor(11558908));

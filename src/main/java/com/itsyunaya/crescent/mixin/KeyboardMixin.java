@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class KeyboardMixin {
 
     //TODO: Make keybind dynamically changeable
-    //TODO: Add action on release key
     @Inject(method = "onKey", at = @At("HEAD"))
     private void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
         // how am i gonna set a custom GLFW.GLFW_KEY? idk! am i gonna figure it out? maybe!

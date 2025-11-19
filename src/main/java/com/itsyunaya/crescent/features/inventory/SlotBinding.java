@@ -4,10 +4,14 @@ import com.itsyunaya.crescent.mixin.HandledScreenAccessor;
 import com.itsyunaya.crescent.util.DataBuilder;
 import com.itsyunaya.crescent.util.Utils;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.List;
 import java.util.Set;
 
 import static com.itsyunaya.crescent.util.Utils.mc;
@@ -48,45 +52,76 @@ public class SlotBinding {
             }
             lastSlot = -1;
         }
-
         wasDown = down;
     }
 
     private static void registerBind(int press, int release) {
         if (press == release) {
-            Utils.sendChatNotif(Text.literal("Cannot bind slot to itself."), 2);
+            Utils.sendChatNotif(Text.literal("Cannot bind slot to itself."), 1);
             Utils.playErrorSound();
-
         } else {
             System.out.println("Pair captured: " + press + " -> " + release);
 
             if (!DataBuilder.pairExists(press, release)) {
                 if (!ILLEGAL_SLOTS.contains(press) && !ILLEGAL_SLOTS.contains(release)) {
-                    // did you know that java has an XOR operator? me neither :3c
-                    if (ARMOUR_SLOTS.contains(press) ^ ARMOUR_SLOTS.contains(release)) {
-                        // register bind
-                        DataBuilder.addPair(press, release);
-                        Utils.playConfirmSound();
-
-                    } else if (ARMOUR_SLOTS.contains(press) && ARMOUR_SLOTS.contains(release)) {
+                    if (ARMOUR_SLOTS.contains(press) && ARMOUR_SLOTS.contains(release)) {
                         // error
-
+                        Utils.sendChatNotif(Text.literal("Cannot bind two armour slots together."), 1);
                         Utils.playErrorSound();
-
                     } else {
                         // register bind
+                        Utils.sendChatNotif(Text.literal("Bind registered."), 2);
                         DataBuilder.addPair(press, release);
                         Utils.playConfirmSound();
                     }
                 } else {
                     // error
+                    Utils.sendChatNotif(Text.literal("Cannot bind crafting grid."), 1);
                     Utils.playErrorSound();
                 }
             } else {
                 // if bind already exists, delete it again
                 DataBuilder.removePair(press, release);
+                Utils.sendChatNotif(Text.literal("Bind removed."), 2);
                 Utils.playConfirmSound();
             }
         }
+    }
+
+    private void executeMove() {
+        // check if instanceof inventory
+        // check if action is lmb and shift on slot
+
+        // if slotid is present in data, get ALL other slots its bound to
+        // if only one is present, move item from focusedslot to that one
+
+        if (mc.currentScreen instanceof InventoryScreen inventoryScreen) {
+            Slot focusedSlot = ((HandledScreenAccessor) inventoryScreen).getFocusedSlot();
+            if (GLFW.glfwGetKey(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS &&
+                    GLFW.glfwGetKey(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS) {
+                if (DataBuilder.hasPairs(focusedSlot.id)) {
+                    List<Integer> meow = DataBuilder.getOtherPairValues(focusedSlot.id);
+                    moveItemBetweenSlots(focusedSlot.id, meow.getFirst());
+                }
+            }
+        }
+
+        // ill take care of this part later
+
+        // if multiple are present (oh great heavens), check what slot of them the item got moved to last
+        // if no slot has previously been moved to, choose first out of the list, and move item there
+        // if one of the slots has been moved to previously, use that one
+        // update prev moved to SOMEHOW
+    }
+
+    public static void moveItemBetweenSlots(int slotA, int slotB) {
+        ScreenHandler sh = mc.player.currentScreenHandler;
+        ClientPlayerEntity player = mc.player;
+
+        // oh great heavens
+        // id do this with slotActionType.SWAP but thats reserved for hotbar only, thank you mojang
+        mc.interactionManager.clickSlot(sh.syncId, slotA, 0, SlotActionType.PICKUP, player);
+        mc.interactionManager.clickSlot(sh.syncId, slotB, 0, SlotActionType.PICKUP, player);
+        mc.interactionManager.clickSlot(sh.syncId, slotA, 0, SlotActionType.PICKUP, player);
     }
 }
