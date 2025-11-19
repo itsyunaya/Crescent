@@ -79,7 +79,6 @@ public class SlotBinding {
                     }
                 } else {
                     // error
-
                     Utils.playErrorSound();
                 }
             } else {
