@@ -3,6 +3,7 @@ package com.itsyunaya.crescent.features.inventory;
 import com.itsyunaya.crescent.mixin.HandledScreenAccessor;
 import com.itsyunaya.crescent.util.DataBuilder;
 import com.itsyunaya.crescent.util.Utils;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.screen.ScreenHandler;
@@ -14,13 +15,14 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 import java.util.Set;
 
-import static com.itsyunaya.crescent.util.Utils.mc;
+import static com.itsyunaya.crescent.util.Utils.*;
 
 public class SlotBinding {
 
     // debug, ill find a better method to execute this later i swear
     public void piss() {
         captureSlots();
+        executeMove();
     }
 
     private static final Set<Integer> ILLEGAL_SLOTS = Set.of(0, 1, 2, 3, 4);
@@ -30,6 +32,7 @@ public class SlotBinding {
     private static int lastSlot = -1;
 
     private static void captureSlots() {
+        if (!keyPressed) return;
         if (!(mc.currentScreen instanceof InventoryScreen inventory)) return;
 
         Slot focusedSlot = ((HandledScreenAccessor) inventory).getFocusedSlot();
@@ -96,12 +99,14 @@ public class SlotBinding {
         // if only one is present, move item from focusedslot to that one
 
         if (mc.currentScreen instanceof InventoryScreen inventoryScreen) {
-            Slot focusedSlot = ((HandledScreenAccessor) inventoryScreen).getFocusedSlot();
-            if (GLFW.glfwGetKey(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS &&
-                    GLFW.glfwGetKey(mc.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS) {
+            if (Screen.hasShiftDown() && keyPressed2) {
+                Slot focusedSlot = ((HandledScreenAccessor) inventoryScreen).getFocusedSlot();
+
                 if (DataBuilder.hasPairs(focusedSlot.id)) {
+                    // I HAVE NO IDEA WHAT IM DOING !!!!
                     List<Integer> meow = DataBuilder.getOtherPairValues(focusedSlot.id);
-                    moveItemBetweenSlots(focusedSlot.id, meow.getFirst());
+                    //moveItemBetweenSlots(focusedSlot.id, meow.getFirst());
+                    moveItemBetweenSlots(38, 20);
                 }
             }
         }

@@ -53,4 +53,6 @@ public class Utils {
 
     //TODO: clean up the naming and location of this
     public static boolean keyPressed = false;
+    public static boolean keyPressed1 = false;
+    public  static boolean keyPressed2 = false;
 }
