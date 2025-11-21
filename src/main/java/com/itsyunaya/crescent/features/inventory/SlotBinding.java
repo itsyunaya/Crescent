@@ -32,11 +32,14 @@ public class SlotBinding {
     private static int lastSlot = -1;
 
     private static void captureSlots() {
+        // TODO: replace with keypress event, this is incredibly stupid
         if (!keyPressed) return;
         if (!(mc.currentScreen instanceof InventoryScreen inventory)) return;
 
         Slot focusedSlot = ((HandledScreenAccessor) inventory).getFocusedSlot();
         if (focusedSlot == null) return;
+        if (focusedSlot.hasStack()) return;
+        if (!mc.player.currentScreenHandler.getCursorStack().isEmpty()) return;
 
         int state = GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT);
         boolean down = state == GLFW.GLFW_PRESS;
@@ -92,31 +95,28 @@ public class SlotBinding {
     }
 
     private void executeMove() {
-        // check if instanceof inventory
-        // check if action is lmb and shift on slot
-
-        // if slotid is present in data, get ALL other slots its bound to
-        // if only one is present, move item from focusedslot to that one
-
         if (mc.currentScreen instanceof InventoryScreen inventoryScreen) {
-            if (Screen.hasShiftDown() && keyPressed2) {
+            if (Screen.hasShiftDown() && keyPressed2  && !prevKeyPressed2) {
                 Slot focusedSlot = ((HandledScreenAccessor) inventoryScreen).getFocusedSlot();
+                if (focusedSlot != null) {
+                    if (DataBuilder.hasPairs(focusedSlot.id)) {
+                        List<Integer> meow = DataBuilder.getOtherPairValues(focusedSlot.id);
+                        moveItemBetweenSlots(focusedSlot.id, meow.getFirst());
 
-                if (DataBuilder.hasPairs(focusedSlot.id)) {
-                    // I HAVE NO IDEA WHAT IM DOING !!!!
-                    List<Integer> meow = DataBuilder.getOtherPairValues(focusedSlot.id);
-                    //moveItemBetweenSlots(focusedSlot.id, meow.getFirst());
-                    moveItemBetweenSlots(38, 20);
+                        // if multiple are present (oh great heavens), check what slot of them the item got moved to last
+                            // how do i store where it has previously moved to?
+                            // having to make another json object for this would be hell
+                            // what if i just leave it like this? do ppl care?
+                        // if no slot has previously been moved to, choose first out of the list, and move item there
+                            // (if prevMoved.id == null) {mIBS(focus.id, meow.getFirst())}
+                        // if one of the slots has been moved to previously, use that one
+                            // else {mIBS(focus.id, meow.get(prevMoved))}
+                        // update prev moved to SOMEHOW
+                    }
                 }
             }
         }
-
-        // ill take care of this part later
-
-        // if multiple are present (oh great heavens), check what slot of them the item got moved to last
-        // if no slot has previously been moved to, choose first out of the list, and move item there
-        // if one of the slots has been moved to previously, use that one
-        // update prev moved to SOMEHOW
+        prevKeyPressed2 = keyPressed2;
     }
 
     public static void moveItemBetweenSlots(int slotA, int slotB) {

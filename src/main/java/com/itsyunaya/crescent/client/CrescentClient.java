@@ -2,6 +2,7 @@ package com.itsyunaya.crescent.client;
 
 import com.itsyunaya.crescent.features.inventory.SlotBinding;
 import com.itsyunaya.crescent.features.meowing.*;
+import com.itsyunaya.crescent.util.InvRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
@@ -20,6 +21,7 @@ public class CrescentClient implements ClientModInitializer {
             RandomMeows.register();
             SlotBinding meow = new SlotBinding();
             meow.piss();
+            InvRenderer.render();
         });
     }
 }
