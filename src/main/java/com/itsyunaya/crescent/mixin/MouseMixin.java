@@ -1,6 +1,7 @@
 package com.itsyunaya.crescent.mixin;
 
 import net.minecraft.client.Mouse;
+import net.minecraft.client.input.MouseInput;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,8 +15,8 @@ public class MouseMixin {
 
     // i profusely dislike this
     @Inject(method = "onMouseButton", at = @At("HEAD"))
-    private void onMouseButton(long window, int button, int action, int mods, CallbackInfo ci) {
-        if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return;
+    private void onMouseButton(long window, MouseInput input, int action, CallbackInfo ci) {
+        if (input.button() != GLFW.GLFW_MOUSE_BUTTON_LEFT) return;
 
         if (action == GLFW.GLFW_PRESS) {
             keyPressed2 = true;

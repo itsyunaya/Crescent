@@ -3,7 +3,6 @@ package com.itsyunaya.crescent.features.inventory;
 import com.itsyunaya.crescent.mixin.HandledScreenAccessor;
 import com.itsyunaya.crescent.util.DataBuilder;
 import com.itsyunaya.crescent.util.Utils;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.screen.ScreenHandler;
@@ -20,7 +19,7 @@ import static com.itsyunaya.crescent.util.Utils.*;
 public class SlotBinding {
 
     // debug, ill find a better method to execute this later i swear
-    public void piss() {
+    public void wawa() {
         captureSlots();
         executeMove();
     }
@@ -96,7 +95,7 @@ public class SlotBinding {
 
     private void executeMove() {
         if (mc.currentScreen instanceof InventoryScreen inventoryScreen) {
-            if (Screen.hasShiftDown() && keyPressed2  && !prevKeyPressed2) {
+            if (mc.isShiftPressed() && keyPressed2  && !prevKeyPressed2) {
                 Slot focusedSlot = ((HandledScreenAccessor) inventoryScreen).getFocusedSlot();
                 if (focusedSlot != null) {
                     if (DataBuilder.hasPairs(focusedSlot.id)) {
