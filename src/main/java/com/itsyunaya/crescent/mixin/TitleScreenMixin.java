@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class TitleScreenMixin {
 
     @Inject(method = "addDevelopmentWidgets", at = @At("HEAD"))
-    private void enableTestWorldButton(int y, int spacingY, CallbackInfoReturnable<Integer> cir) {
+    private void crescent$enableTestWorldButton(int y, int spacingY, CallbackInfoReturnable<Integer> cir) {
         SharedConstants.isDevelopment = CrescentConfig.enableTestWorldCreationButton;
     }
 }

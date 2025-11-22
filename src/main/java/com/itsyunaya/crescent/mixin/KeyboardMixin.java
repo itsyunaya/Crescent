@@ -1,6 +1,5 @@
 package com.itsyunaya.crescent.mixin;
 
-import com.itsyunaya.crescent.Crescent;
 import com.itsyunaya.crescent.util.Utils;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.input.KeyInput;
@@ -27,7 +26,6 @@ public abstract class KeyboardMixin {
 
         if (input.key() == GLFW.GLFW_KEY_G) {
             if (action == GLFW.GLFW_PRESS || action == GLFW.GLFW_REPEAT) {
-                Crescent.LOGGER.info("GGGGGGGGG");
                 Utils.keyPressed1 = true;
             } else if (action == GLFW.GLFW_RELEASE) {
                 Utils.keyPressed1 = false;

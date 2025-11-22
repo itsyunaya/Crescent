@@ -8,6 +8,7 @@
   "client": [
     "HandledScreenAccessor",
     "HandledScreenMixin",
+    "InventoryScreenMixin",
     "KeyboardMixin",
     "MouseMixin",
     "TitleScreenMixin"

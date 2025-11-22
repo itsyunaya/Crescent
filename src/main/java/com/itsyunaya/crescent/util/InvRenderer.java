@@ -1,6 +1,7 @@
 package com.itsyunaya.crescent.util;
 
 import com.itsyunaya.crescent.mixin.HandledScreenAccessor;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.render.*;
 import net.minecraft.screen.slot.Slot;
@@ -11,7 +12,7 @@ import static com.itsyunaya.crescent.util.Utils.mc;
 
 public class InvRenderer {
 
-    public static void render() {
+    public static void render(DrawContext context) {
         if (!(mc.currentScreen instanceof InventoryScreen inv)) return;
 
         Slot focusedSlot = ((HandledScreenAccessor) inv).getFocusedSlot();
@@ -29,6 +30,4 @@ public class InvRenderer {
             }
         }
     }
-
-
 }
