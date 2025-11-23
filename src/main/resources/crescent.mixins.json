@@ -4,6 +4,7 @@
   "package": "com.itsyunaya.crescent.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ScreenHandlerMixin"
   ],
   "client": [
     "HandledScreenAccessor",

@@ -15,4 +15,6 @@ public class InventoryScreenMixin {
     private void crescent$render(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
         InventoryRenderCallback.EVENT.invoker().draw(context);
     }
+
+    // TODO: add ctrl click to take one item from stack
 }
